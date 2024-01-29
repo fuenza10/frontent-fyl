@@ -56,7 +56,7 @@ export const signUp = createAsyncThunk(
   async (registerData: RegisterData, { rejectWithValue }) => {
     const response = await register(registerData);
     if (response.status === CREATED) {
-      localStorage.setItem('authUser', JSON.stringify( response))
+      localStorage.setItem('authUser', JSON.stringify(response))
       return {
         token: response.accessToken,
         refreshToken: response.refreshToken,
@@ -66,15 +66,7 @@ export const signUp = createAsyncThunk(
     return rejectWithValue("Información incorrecta");
   }
 );
-export const findUserUpdate = createAsyncThunk(
-  "auth/findOne",
-  async (  { rejectWithValue})=>{
-    
-    const response = await findOneUser();
-    
-    return response
-  }
-)
+
 export const refreshTokenAction = createAsyncThunk(
   "auth/refreshToken",
   async (refreshToken: string, { rejectWithValue, dispatch }) => {
@@ -145,11 +137,11 @@ const authSlice = createSlice({
             history: (path: string) => void;
           }>
         ) => {
-         localStorage.setItem('token', action.payload.token)
-          
+          localStorage.setItem('token', action.payload.token)
+
           action.payload.history("/dashboard");
           state.status = "authenticated";
-          state.token = action.payload.token ;
+          state.token = action.payload.token;
           state.refreshToken = action.payload.refreshToken;
           state.user = action.payload.user;
           state.errorMessage = "";
@@ -158,11 +150,8 @@ const authSlice = createSlice({
       )
       .addCase(signIn.rejected, (state, action: PayloadAction<unknown>) => {
         state.status = "not-authenticated";
-        state.errorMessage = action.payload as string; 
+        state.errorMessage = action.payload as string;
         state.loading = false;
-      })
-      .addCase (findUserUpdate.fulfilled, (state, action: PayloadAction<{user:User}>) => {
-        state.user= action.payload.user;
       })
       .addCase(signUp.pending, (state) => {
         state.loading = true;

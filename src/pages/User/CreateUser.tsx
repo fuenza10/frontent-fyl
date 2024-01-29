@@ -36,7 +36,7 @@ export const CreateUser = () => {
       password: '',
       companyId: '',
       rut: '',
-      userRole: user?.UserRole.find((role) => role === 'ADMIN_ROLE')
+      userRole: user?.UserRole.find((role: any) => role === 'ADMIN_ROLE') === 'ADMIN_ROLE'
         ? ['CLIENT_ROLE']
         : ['USER_ROLE'],
     },
@@ -53,13 +53,13 @@ export const CreateUser = () => {
         .matches(/(.*[A-Z].*)/, 'Debe tener al menos una mayúscula')
         .matches(/(.*[0-9].*)/, 'Debe tener al menos un número')
         .required('Este campo es requerido'),
-      companyId: user?.UserRole.find((role) => role === 'ADMIN_ROLE')
+      companyId: user?.UserRole.find((role: any) => role === 'ADMIN_ROLE') === 'ADMIN_ROLE'
         ? Yup.string().notRequired()
         : Yup.string().required('Este campo es requerido'),
       rut: Yup.string().required('Este campo es requerido'),
     }),
 
-    onSubmit: (values) => {
+    onSubmit: (values: any) => {
       const response = register(values)
         .then((res) => {
           if (res.status === 201) {
@@ -79,7 +79,8 @@ export const CreateUser = () => {
   useEffect(() => {
     async function fetchCompanies() {
       const response = await findAllCompanies();
-      setCompanies(response);
+    
+      setCompanies(response ?? []);
     }
     fetchCompanies();
   }, []);
@@ -110,13 +111,13 @@ export const CreateUser = () => {
                             onBlur={formik.handleBlur}
                             invalid={
                               formik.touched.firstName &&
-                              formik.errors.firstName
+                                formik.errors.firstName
                                 ? true
                                 : false
                             }
                           />
                           {formik.errors.firstName &&
-                          formik.touched.firstName ? (
+                            formik.touched.firstName ? (
                             <FormFeedback type='invalid'>
                               {formik.errors.firstName}
                             </FormFeedback>
@@ -210,30 +211,36 @@ export const CreateUser = () => {
                     <Row>
                       <Col lg={4}>
                         <div className='mb-3'>
-                          <Label htmlFor='formrow-InputCity'>Compañía</Label>
+                          {companies.length > 0 ?
+                            (
+                              <>
+                                <Label htmlFor='formrow-InputCity'>Compañía</Label>
 
-                          <Input
-                            type='select'
-                            id='formrow-company-Input'
-                            name='companyId'
-                            className='form-control'
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.companyId}
-                          >
-                            <option>Selecciona una empresa</option>
-                            {companies?.map((company) => (
-                              <option key={company.id} value={company.id}>
-                                {company.name}
-                              </option>
-                            ))}
-                          </Input>
-                          {formik.errors.companyId &&
-                          formik.touched.companyId ? (
-                            <FormFeedback type='invalid'>
-                              {formik.errors.companyId}
-                            </FormFeedback>
-                          ) : null}
+                                <Input
+                                  type='select'
+                                  id='formrow-company-Input'
+                                  name='companyId'
+                                  className='form-control'
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  value={formik.values.companyId}
+                                >
+                                  <option>Selecciona una empresa</option>
+                                  {companies?.map((company) => (
+                                    <option key={company.id} value={company.id}>
+                                      {company.name}
+                                    </option>
+                                  ))}
+                                </Input>
+                                {formik.errors.companyId &&
+                                  formik.touched.companyId ? (
+                                  <FormFeedback type='invalid'>
+                                    {formik.errors.companyId}
+                                  </FormFeedback>
+                                ) : null}
+                              </>
+                            ) : <div />
+                          }
                         </div>
                       </Col>
                       <Col lg={4}>

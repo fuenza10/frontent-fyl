@@ -9,8 +9,10 @@ export const AxiosInterceptor = () => {
 const  updateHeader = (request: any) => {
     //@ts-ignore
     const authUser = JSON.parse(localStorage.getItem('authUser'));
+    const token = localStorage.getItem('token');
+
     const newHeaders = {
-      Authorization: `Bearer ${authUser.token}`,
+      Authorization: `Bearer ${token}`,
       'Content-type': 'application/json',
     };
     request.headers = newHeaders;
@@ -27,7 +29,7 @@ export async function get(url: string, config = {}) {
   return await api
     .get(url, { ...config })
     .then((response) => response.data)
-    .catch((error) => error.response?.data);
+    .catch((error) => {console.log(error)});
 }
 
 export  async function post<T = any>(
@@ -51,6 +53,7 @@ const  axiosError: AxiosError<unknown, any> = error;
 if  (axiosError.response && axiosError.response.data) {
       return axiosError.response.data as T;
     }
+    console.log(error)
     throw new Error('Error desconocido');
   }
 }

@@ -46,7 +46,7 @@ const UpdateFormResponse = () => {
   }));
 
   const navigate = useNavigate();
-  console.log({ location });
+  
   const formName = location.state?.forms.name;
   const formId = location.state?.formId;
   const responseId = location.state?.id;

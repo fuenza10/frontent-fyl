@@ -30,7 +30,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = (props) => {
       const obj: UserResponse = JSON.parse(
         localStorage.getItem("authUser") as string
       );
-      setusername(obj.user.email);
+      setusername(obj.user?.email);
     }
   }, [props.success]);
 

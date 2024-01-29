@@ -15,7 +15,7 @@ const SelectorComponent: React.FC<SelectorComponentProps> = ({
   const isUser = location.state?.isUser ?? false;
   const fields = location.pathname=== "/response-form"? location.state?.fields: location.state?.forms?.fields;
   const formResponses = location.state?.formResponses;
-  console.log({location})
+ 
 
   const matchingResponse = formResponses?.find(
     
@@ -27,7 +27,7 @@ const SelectorComponent: React.FC<SelectorComponentProps> = ({
   );
  
   const defaultValue = matchingResponse?.value || '';
-console.log({fields})
+
   return (
     <Row className='mt-2'>
       <Col

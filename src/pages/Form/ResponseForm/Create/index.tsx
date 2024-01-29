@@ -30,11 +30,11 @@ const FormularioViewer = () => {
   };
   const location = useLocation();
   const navigate = useNavigate();
-  console.log({ location });
+  
   const formName = location.state?.name;
   const fields = location.state?.fields;
   const formId = location.state?.id;
-  console.log({ fields });
+  
   useEffect(() => {
     async function fetchCompanies() {
       const response = await findAllCompanies();
@@ -108,7 +108,7 @@ const FormularioViewer = () => {
                           onChange={(e) => setCompanyId(e.target.value)}
                         >
                           <option>Selecciona una empresa</option>
-                          {companies.map((company) => (
+                          {companies?.map((company) => (
                             <option key={company.id} value={company.id}>
                               {company.name}
                             </option>

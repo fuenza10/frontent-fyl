@@ -29,7 +29,7 @@ const FormResponsePaginatedTable = () => {
     setIsLoading(true);
     async function fetchCollaborators() {
       const response = await findFormResponses(user?.companies);
-
+    
       if (response?.forms) {
         setForms(response.forms);
         ('');

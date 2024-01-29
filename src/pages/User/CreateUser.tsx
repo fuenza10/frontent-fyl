@@ -119,7 +119,7 @@ export const CreateUser = () => {
                           {formik.errors.firstName &&
                             formik.touched.firstName ? (
                             <FormFeedback type='invalid'>
-                              {formik.errors.firstName}
+                              {typeof formik.errors.firstName === 'string'? formik.errors.firstName : JSON.stringify(formik.errors.firstName)}
                             </FormFeedback>
                           ) : null}
                         </div>
@@ -145,7 +145,7 @@ export const CreateUser = () => {
                           />
                           {formik.errors.lastName && formik.touched.lastName ? (
                             <FormFeedback type='invalid'>
-                              {formik.errors.lastName}
+                              {typeof formik.errors.lastName === 'string'? formik.errors.lastName : JSON.stringify(formik.errors.lastName)}
                             </FormFeedback>
                           ) : null}
                         </div>
@@ -173,7 +173,7 @@ export const CreateUser = () => {
                           />
                           {formik.errors.email && formik.touched.email ? (
                             <FormFeedback type='invalid'>
-                              {formik.errors.email}
+                              {typeof formik.errors.email === 'string'? formik.errors.email : JSON.stringify(formik.errors.email)}
                             </FormFeedback>
                           ) : null}
                         </div>
@@ -201,7 +201,7 @@ export const CreateUser = () => {
                           />
                           {formik.errors.password && formik.touched.password ? (
                             <FormFeedback type='invalid'>
-                              {formik.errors.password}
+                              {typeof formik.errors.password === 'string'? formik.errors.password : JSON.stringify(formik.errors.password)}
                             </FormFeedback>
                           ) : null}
                         </div>
@@ -234,8 +234,10 @@ export const CreateUser = () => {
                                 </Input>
                                 {formik.errors.companyId &&
                                   formik.touched.companyId ? (
+                                  
                                   <FormFeedback type='invalid'>
-                                    {formik.errors.companyId}
+                                    // @ts-ignore
+                                    {typeof formik.errors.companyId === 'string'? formik.errors.companyId : JSON.stringify(formik.errors.companyId)}
                                   </FormFeedback>
                                 ) : null}
                               </>
@@ -258,6 +260,7 @@ export const CreateUser = () => {
                             className='form-control'
                             placeholder='Ingrese RUT de la empresa'
                             valid={isValid}
+                            //@ts-ignore
                             invalid={
                               rut.formatted.length >= 0 &&
                               !isValid &&
